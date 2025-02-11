@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -35,13 +36,32 @@ public class ProductController {
         return "productList";
     }
 
-@PostMapping("/delete")
-public String deleteProduct(@RequestParam("productId") String productId) {
-    Product productToDelete = new Product();
-    productToDelete.setProductId(productId);
-    service.delete(productToDelete);
-    return "redirect:list";
-}
+    @PostMapping("/delete")
+    public String deleteProduct(@RequestParam("productId") String productId) {
+        Product productToDelete = new Product();
+        productToDelete.setProductId(productId);
+        service.delete(productToDelete);
+        return "redirect:list";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editProductPage(@PathVariable String id, Model model) {
+        Iterator<Product> productIterator = service.findAll().iterator();
+        while (productIterator.hasNext()) {
+            Product product = productIterator.next();
+            if (product.getProductId().equals(id)) {
+                model.addAttribute("product", product);
+                break;
+            }
+        }
+        return "editProduct";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editProductPost(@PathVariable String id, @ModelAttribute Product updatedProduct) {
+        service.edit(id, updatedProduct);
+        return "redirect:/product/list";
+    }
 
 
 }

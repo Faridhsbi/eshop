@@ -14,14 +14,14 @@ public class ProductRepository {
     private List<Product> productData = new ArrayList<>();
 
     public Product create(Product product) {
-        // Generate UUID untuk productId jika belum ada
+
         if (product.getProductId() == null || product.getProductId().isEmpty()) {
             product.setProductId(UUID.randomUUID().toString());
         }
         productData.add(product);
         return product;
     }
-    
+
     public Iterator<Product> findAll() {
         return productData.iterator();
     }
@@ -32,6 +32,17 @@ public class ProductRepository {
                     product.getProductId().equals(p.getProductId())
             );
         }
+    }
+    public Product edit(String id, Product updatedProduct) {
+        for (int i = 0; i < productData.size(); i++) {
+            Product existingProduct = productData.get(i);
+            if (existingProduct.getProductId().equals(id)) {
+                updatedProduct.setProductId(id);
+                productData.set(i, updatedProduct);
+                return updatedProduct;
+            }
+        }
+        return null;
     }
 
 
