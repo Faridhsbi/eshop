@@ -7,5 +7,5 @@ import lombok.Setter;
 public class Product {
     private String productId;
     private String productName;
-    private double productQuantity;
+    private int productQuantity;
 }
