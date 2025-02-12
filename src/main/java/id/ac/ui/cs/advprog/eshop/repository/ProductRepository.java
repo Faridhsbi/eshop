@@ -26,6 +26,16 @@ public class ProductRepository {
         return productData.iterator();
     }
 
+    public Product findById(String id) {
+        if (id == null) {
+            return null;
+        }
+        return productData.stream()
+                .filter(product -> id.equals(product.getProductId()))
+                .findFirst()
+                .orElse(null);
+    }
+
     public void delete(Product product) {
         if (product != null && product.getProductId() != null) {
             productData.removeIf(p ->
