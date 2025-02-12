@@ -65,4 +65,81 @@ public class ProductRepostioryTest {
         assertEquals(product2.getProductId(), savedProduct.getProductId());
         assertFalse(productIterator.hasNext());
     }
+
+    @Test
+    void testDelete(){
+        // Arrange
+        Product product = new Product();
+        product.setProductId("ab55e9f-1c39-460e-8860-71aaf6af63bd6");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+
+        // Cek produk
+        Iterator<Product> productIterator = productRepository.findAll();
+        assertTrue(productIterator.hasNext());
+
+        // delete product
+        productRepository.delete(product);
+
+        // cek kembali product
+        productIterator = productRepository.findAll();
+        assertFalse(productIterator.hasNext());
+    }
+
+
+    @Test
+    void testEdit(){
+        Product product = new Product();
+        product.setProductId("ab55e9f-1c39-460e-8860-71aaf6af63bd6");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+
+        // Edit produk
+        Product editedProduct = new Product();
+        editedProduct.setProductId("ab55e9f-1c39-460e-8860-71aaf6af63bd6");
+        editedProduct.setProductName("Sampo Cap Bangoo");
+        editedProduct.setProductQuantity(200);
+        productRepository.edit(editedProduct.getProductId(), editedProduct);
+
+        // Ambil produk yang sudah diedit dan cek hasil edit
+        Product result = productRepository.findById("ab55e9f-1c39-460e-8860-71aaf6af63bd6");
+        assertNotNull(result);
+        assertEquals("Sampo Cap Bangoo", result.getProductName());
+        assertEquals(200, result.getProductQuantity());
+        assertEquals("ab55e9f-1c39-460e-8860-71aaf6af63bd6", result.getProductId());
+
+        // Hapus produk setelah diedit
+        productRepository.delete(result);
+
+        // Pastikan produk telah dihapus
+        assertNull(productRepository.findById("ab55e9f-1c39-460e-8860-71aaf6af63bd6"));
+    }
+
+    @Test
+    void testEditNonExistentProduct() {
+        //
+        Product nonExistentProduct = new Product();
+        nonExistentProduct.setProductId("non-existent-id");
+        nonExistentProduct.setProductName("None");
+        nonExistentProduct.setProductQuantity(500);
+
+        productRepository.edit(nonExistentProduct.getProductId(), nonExistentProduct);
+
+        assertNull(productRepository.findById("non-existent-id"));
+    }
+
+    @Test
+    void testDeleteNonExistentProduct() {
+        // Act: Coba hapus produk yang tidak ada di repository
+        Product nonExistentProduct = new Product();
+        nonExistentProduct.setProductId("non-existent-id");
+        productRepository.delete(nonExistentProduct);
+
+        assertNull(productRepository.findById("non-existent-id"));
+    }
+
+
+
 }
