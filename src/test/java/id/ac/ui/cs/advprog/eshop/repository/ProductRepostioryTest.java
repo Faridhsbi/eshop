@@ -11,9 +11,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.Iterator;
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 public class ProductRepostioryTest {
+
     @InjectMocks
     ProductRepository productRepository;
+
     @BeforeEach
     public void setUp() {
     }

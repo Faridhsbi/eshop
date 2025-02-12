@@ -14,17 +14,17 @@ public class ProductTest {
         this.product.setProductQuantity(100);
     }
     @Test
-    void testSetProductId() {
+    void testGetProductId() {
         assertEquals("ab55e9f-1c39-460e-8860-71aaf6af63bd6", this.product.getProductId());
     }
 
     @Test
-    void testSetProductName() {
+    void testGetProductName() {
         assertEquals("Sampo Cap Bambang", this.product.getProductName());
     }
 
     @Test
-    void testSetProductQuantity() {
+    void testGetProductQuantity() {
         assertEquals(100, this.product.getProductQuantity());
     }
 
