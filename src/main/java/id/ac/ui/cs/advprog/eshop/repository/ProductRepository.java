@@ -14,6 +14,9 @@ public class ProductRepository {
     private List<Product> productData = new ArrayList<>();
 
     public Product create(Product product) {
+        if (product.getProductName() == null || product.getProductName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Product name cannot be empty");
+        }
 
         if (product.getProductId() == null || product.getProductId().isEmpty()) {
             product.setProductId(UUID.randomUUID().toString());
