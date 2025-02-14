@@ -41,12 +41,12 @@ Ketika code coverage kita sudah mencapai 100%, hal tersebut belum tentu menjadi 
 Masalah yang terjadi ketika dilakukan pengulangan kode dengan isi  <br>
 - Duplikasi kode<br>
   Jika setup prosedur sebagian besar sama maka dapat menyebabkan duplikasi kode sehingga menyulitkan pemeliharaan. Misalnya, jika terdapat perubahan kode pada suatu fungsi, maka harus dilakukan perubahan terhadap beberapa tempat.
-- Melanggar prinsip Don't Repeat Yourself
-  Menulis ulang kode dapat mengurangi efisiensi program dan kualiatas kode secara keseluruhan. Kode yang berkualitas seharusnya mduah untuk dilakukan refactor dan reusable.<br>
+- Melanggar prinsip Don't Repeat Yourself<br>
+  Menulis ulang kode dapat mengurangi efisiensi program dan kualiatas kode secara keseluruhan. Kode yang berkualitas seharusnya mudah untuk dilakukan refactor dan reusable.<br>
 
 
 Solusi
 - Dapat melakukan refactor dengan base class misalnya pada BaseFunctionalTest yang berisi setup prosedur yang umum. Kemudian, subclass test yang lainnya dapat mewarisi superclass pada base class tersebut.
 - Dapat menggunakan helper method yang membantu dalam mereduksi fungsionalitas dari class yang dipanggil. Hal ini dapat membantu mengurangi duplikasi dan meningkatkan readability <br>
--
+
 Dengan demikian, meskipun terdapat setup prosedur yang sama tidak langsung menurunkan kualitas kode. Dengan melakukana refactoring, kita dapat meningkatkan kualitas dan efisiensi kode sehingga dapat mempermudah kita dalam melakukan pemeliharaan dan melakukana update fitur kedepannya nanti.
