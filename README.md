@@ -45,7 +45,7 @@ Masalah yang terjadi ketika dilakukan pengulangan kode dengan isi  <br>
   Menulis ulang kode dapat mengurangi efisiensi program dan kualiatas kode secara keseluruhan. Kode yang berkualitas seharusnya mudah untuk dilakukan refactor dan reusable.<br>
 
 
-Solusi
+  Solusi
 - Dapat melakukan refactor dengan base class misalnya pada BaseFunctionalTest yang berisi setup prosedur yang umum. Kemudian, subclass test yang lainnya dapat mewarisi superclass pada base class tersebut.
 - Dapat menggunakan helper method yang membantu dalam mereduksi fungsionalitas dari class yang dipanggil. Hal ini dapat membantu mengurangi duplikasi dan meningkatkan readability <br>
 
