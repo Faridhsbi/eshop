@@ -83,7 +83,7 @@ tasks.withType<Test>().configureEach {
 sonar {
     properties {
         property("sonar.projectKey", "Faridhsbi_eshop")
-        property("sonar.organization", "faridhsbi")
+        property("sonar.organization", "Faridhsbi")
         property("sonar.host.url", "https://sonarcloud.io")
     }
 }
