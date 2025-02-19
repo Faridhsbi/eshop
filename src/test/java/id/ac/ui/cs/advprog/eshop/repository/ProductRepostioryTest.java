@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Iterator;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -18,6 +19,7 @@ public class ProductRepostioryTest {
 
     @BeforeEach
     public void setUp() {
+        // Reset repository jika diperlukan
     }
 
     @Test
@@ -74,18 +76,17 @@ public class ProductRepostioryTest {
         product.setProductQuantity(100);
         productRepository.create(product);
 
-        // Cek produk
+        // Cek produk sudah tersimpan
         Iterator<Product> productIterator = productRepository.findAll();
         assertTrue(productIterator.hasNext());
 
-        // delete product
+        // Delete produk
         productRepository.delete(product);
 
-        // cek kembali product
+        // Cek kembali bahwa produk telah dihapus
         productIterator = productRepository.findAll();
         assertFalse(productIterator.hasNext());
     }
-
 
     @Test
     void testEdit(){
@@ -102,7 +103,7 @@ public class ProductRepostioryTest {
         editedProduct.setProductQuantity(200);
         productRepository.edit(editedProduct.getProductId(), editedProduct);
 
-        // Ambil produk yang sudah diedit dan cek hasil edit
+        // Ambil produk yang telah diedit dan cek hasil edit
         Product result = productRepository.findById("ab55e9f-1c39-460e-8860-71aaf6af63bd6");
         assertNotNull(result);
         assertEquals("Sampo Cap Bangoo", result.getProductName());
@@ -118,7 +119,6 @@ public class ProductRepostioryTest {
 
     @Test
     void testEditNonExistentProduct() {
-        //
         Product nonExistentProduct = new Product();
         nonExistentProduct.setProductId("non-existent-id");
         nonExistentProduct.setProductName("None");
@@ -130,6 +130,40 @@ public class ProductRepostioryTest {
     }
 
     @Test
+    void testEditWithNullId() {
+        // buat produk dengan id valid
+        Product product = new Product();
+        product.setProductId("ab55e9f-1c39-460e-8860-71aaf6af63bd6");
+        product.setProductName("Bebek Madura Carog");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+
+        // edit dengan id null
+        Product updatedProduct = new Product();
+        updatedProduct.setProductName("Ayam Madura Carog");
+        updatedProduct.setProductQuantity(20);
+        Product result = productRepository.edit(null, updatedProduct);
+
+        // tidak ada produk yang memiliki id null
+        assertNull(result);
+    }
+
+    @Test
+    void testEditWithNullUpdatedProduct() {
+        // buat produk dengan id valid
+        Product product = new Product();
+        product.setProductId("zx54e0a-5c39-100w-9861-123dgf63bd6");
+        product.setProductName("Ayam Almaaz");
+        product.setProductQuantity(105);
+        productRepository.create(product);
+
+        // edit dengan updatedProduct null harus menghasilkan NullPointerException
+        assertThrows(NullPointerException.class, () -> {
+            productRepository.edit("zx54e0a-5c39-100w-9861-123dgf63bd6", null);
+        });
+    }
+
+    @Test
     void testDeleteNonExistentProduct() {
         Product nonExistentProduct = new Product();
         nonExistentProduct.setProductId("non-existent-id");
@@ -138,6 +172,60 @@ public class ProductRepostioryTest {
         assertNull(productRepository.findById("non-existent-id"));
     }
 
+    @Test
+    void testCreateWithNullProductName() {
+        Product product = new Product();
+        product.setProductName(null);
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> productRepository.create(product));
+        assertEquals("Product name cannot be empty", exception.getMessage());
+    }
 
+    @Test
+    void testCreateWithWhitespaceProductName() {
+        Product product = new Product();
+        product.setProductName("   ");
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> productRepository.create(product));
+        assertEquals("Product name cannot be empty", exception.getMessage());
+    }
 
+    @Test
+    void testCreateWithNullProductId() {
+        Product product = new Product();
+        product.setProductName("Pecel Lele Lela");
+        product.setProductId(null);
+        Product created = productRepository.create(product);
+        assertNotNull(created.getProductId());
+        assertFalse(created.getProductId().isEmpty());
+    }
+
+    @Test
+    void testCreateWithEmptyProductId() {
+        Product product = new Product();
+        product.setProductName("Pecel Lele Lela");
+        product.setProductId("");
+        Product created = productRepository.create(product);
+        assertNotNull(created.getProductId());
+        assertFalse(created.getProductId().isEmpty());
+    }
+
+    @Test
+    void testFindByIdWithNullId() {
+        Product result = productRepository.findById(null);
+        assertNull(result);
+    }
+
+    @Test
+    void testDeleteWithNullProduct() {
+        productRepository.delete(null);
+    }
+
+    @Test
+    void testDeleteProductWithNullProductId() {
+        Product product = new Product();
+        product.setProductName("Pecel Ayam Lale");
+        // set productId null
+        productRepository.delete(product);
+        Iterator<Product> it = productRepository.findAll();
+        assertFalse(it.hasNext());
+    }
 }
