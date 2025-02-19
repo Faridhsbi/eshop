@@ -48,6 +48,7 @@ dependencies {
 tasks.register<Test>("unitTest") {
     description = "Runs unit tests."
     group = "verification"
+
     filter {
         excludeTestsMatching("*FunctionalTest")
     }
@@ -57,15 +58,27 @@ tasks.register<Test>("functionalTest") {
     description = "Runs functional tests."
     group = "verification"
 
-    filter{
+    filter {
         includeTestsMatching("*FunctionalTest")
     }
 }
 
 tasks.test {
-    filter  {
+    filter {
         excludeTestsMatching("*FunctionalTest")
     }
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
+
+tasks.test {
+    filter {
+        excludeTestsMatching("*FunctionalTest")
+    }
+
     finalizedBy(tasks.jacocoTestReport)
 }
 
@@ -74,10 +87,6 @@ tasks.jacocoTestReport {
     reports {
         xml.required = true
     }
-}
-
-tasks.withType<Test>().configureEach {
-    useJUnitPlatform()
 }
 
 sonar {
