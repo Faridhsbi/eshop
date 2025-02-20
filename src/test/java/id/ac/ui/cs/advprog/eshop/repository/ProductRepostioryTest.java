@@ -216,7 +216,7 @@ public class ProductRepostioryTest {
 
     @Test
     void testDeleteWithNullProduct() {
-        productRepository.delete(null);
+        assertDoesNotThrow(() -> productRepository.delete(null));
     }
 
     @Test
