@@ -51,6 +51,8 @@ dependencies {
     testImplementation("org.seleniumhq.selenium:selenium-java:$seleniumJavaVersion")
     testImplementation("io.github.bonigarcia:selenium-jupiter:$seleniumJupiterVersion")
     testImplementation("io.github.bonigarcia:webdrivermanager:$webdrivermanagerVersion")
+
+    // Junit Jupiter
     testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
 }
 
