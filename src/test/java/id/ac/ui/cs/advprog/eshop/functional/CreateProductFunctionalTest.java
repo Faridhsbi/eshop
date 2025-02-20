@@ -32,7 +32,7 @@ class CreateProductFunctionalTest {
     }
 
     @Test
-    void createProduct_success(ChromeDriver driver) throws Exception {
+    void createProduct_success(ChromeDriver driver) {
         driver.get(baseUrl + "/product/create");
 
         WebElement nameField = driver.findElement(By.id("nameInput"));
