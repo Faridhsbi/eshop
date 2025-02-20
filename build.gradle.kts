@@ -37,23 +37,24 @@ dependencies {
 
     // Lombok
     compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
 
     // Development Tools
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-    // Testing Dependencies
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    // Annotation Processor
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    annotationProcessor("org.projectlombok:lombok")
+
 
     // Additional Testing Libraries
     testImplementation("org.seleniumhq.selenium:selenium-java:$seleniumJavaVersion")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.github.bonigarcia:selenium-jupiter:$seleniumJupiterVersion")
     testImplementation("io.github.bonigarcia:webdrivermanager:$webdrivermanagerVersion")
-
-    // Junit Jupiter
     testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
+
+    // Testing Dependencies
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.register<Test>("unitTest") {
