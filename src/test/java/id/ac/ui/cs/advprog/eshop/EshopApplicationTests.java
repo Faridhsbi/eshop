@@ -14,7 +14,7 @@ class EshopApplicationTests {
     }
 
     @Test
-    void mainMethodTest() {
-        EshopApplication.main(new String[] {});
+    void main_runsWithoutException() {
+        assertDoesNotThrow(() -> EshopApplication.main(new String[]{}));
     }
 }
