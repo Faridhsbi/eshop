@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EshopApplicationTests {
 
     @Test
@@ -12,8 +12,9 @@ class EshopApplicationTests {
         // This test verifies that the Spring application context loads successfully.
         // No assertions are needed because if the context fails to load, the test will automatically fail.
     }
+
     @Test
-    void main_runsWithoutException() {
-        assertDoesNotThrow(() -> EshopApplication.main(new String[] {}));
+    void mainMethodTest() {
+        EshopApplication.main(new String[] {});
     }
 }
