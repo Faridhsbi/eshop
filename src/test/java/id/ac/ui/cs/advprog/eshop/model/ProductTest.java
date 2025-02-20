@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.*;
-public class ProductTest {
+class ProductTest {
     Product product;
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         this.product = new Product();
         this.product.setProductId("ab55e9f-1c39-460e-8860-71aaf6af63bd6");
         this.product.setProductName("Sampo Cap Bambang");

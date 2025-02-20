@@ -12,14 +12,15 @@ import java.util.Iterator;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ProductRepostioryTest {
+class ProductRepostioryTest {
 
     @InjectMocks
     ProductRepository productRepository;
 
     @BeforeEach
-    public void setUp() {
-        // Reset repository jika diperlukan
+    void setUp() {
+        // Karena ProductRepository menggunakan list in-memory, setiap test akan mendapatkan instance baru
+        // sehingga tidak diperlukan reset tambahan.
     }
 
     @Test
