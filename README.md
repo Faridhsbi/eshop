@@ -1,3 +1,34 @@
+# Modul 2
+
+## Refleksi 1
+
+> List the code quality issue(s) that you fixed during the exercise and explain your strategy on fixing them.
+
+Setelah melakukan identifikasi dengan menggunakan SonarQube, ada beberapa issue yang saya temukan pada kode saya, antara lain:
+1. **Unit test method harus memiliki minimal 1 assertion** <br>
+  Untuk memperbaiki issue diatas, saya menambahkan minimal satu assertion kedalam test method yang telah saya buat sebelumnya. Hal tersebut bertujuan untuk memastikan bahwa metode yang ditest dapat menghasilkan output yang semestinya.
+2. **Removing unused declaration of thrown exception**<br>
+  Issue tersebut terjadi karena saya menggunakan `throws exception` pada beberapa method unit test saya, tetapi method tersebut tidak mengimplementasikan `throws exception` sama sekali, sehingga saya harus menghapusnya.
+3. **Removing autowired field injection and added constructor injection**<br>
+  Penggunaan `@Autowired` secara langsung pada field menyebabkan masalah dalam hal dependency yang sulit ditest dan kurang fleksibel. Jadi saya menggantinya dengan menggunakan constructor testability.
+4. **Adding a nested comment for explaining empty method**<br>
+   Menambahkan penjelasan comment pada method saya yang kosong, hal tersebut bertujuan agar tidak menimbulkan kerancuan dan kebingungan mengapa kode tersebut dibiarkan kosong.
+5. **Grouping Dependencies by Their Destination** <br>
+   Deoendencies pada `build.gradle.kts` harus disusun berdasarkan fungsionalitasnya. Hal ini dapat menambah readability dan maintainabality pada masing-masing dependency.
+
+> Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current implementation has met the definition of Continuous Integration and Continuous Deployment? Explain the reasons (minimum 3 sentences)!
+
+Pada CI/CD workflows yang sudah saya implementasi, menurut saya implementasi tersebut sudah bisa dikatakan sebagai definisi CI/CD, karena beberapa alasan, antara lain:
+- **Continuous Integration** <br>
+  File `ci.yml` yang telah saya buat di `.github/workflows`, berfungsi untuk menjalankan unit test dan analisis lainnya setiap adanya push dan pull request. Hal tersebut dapat memastikan bahwa setiap ada perubahan pada repository telah diuji sebelum dilakukan merge pada master branch.
+- **Continuous Deployment**<br>
+  Saya telah mengintegrasikan repository saya dengan aplikasi Koyeb, dimana proses deployment akan dijalankan setelah proses CI pada setiap perubahan yang dilakukan pada branch master. 
+  
+Dengan demikian, berdasarkan implementasi yang telah saya lakukan, saya telah memenuhi prinsip CI/CD yang memastikan setiap ada perubahan kode maka akan dilakukan proses pengujian, analisis, dan deployment secara otomatis.
+<hr>
+
+# Modul 1
+
 ## Refleksi 1
 
 > You already implemented two new features using Spring Boot. Check again your source code and evaluate the coding standards that you have learned in this module. Write clean code principles and secure coding practices that have been applied to your code.  If you find any mistake in your source code, please explain how to improve your code
@@ -50,3 +81,4 @@ Masalah yang terjadi ketika dilakukan pengulangan kode dengan isi  <br>
 - Dapat menggunakan helper method yang membantu dalam mereduksi fungsionalitas dari class yang dipanggil. Hal ini dapat membantu mengurangi duplikasi dan meningkatkan readability <br>
 
 Dengan demikian, meskipun terdapat setup prosedur yang sama tidak langsung menurunkan kualitas kode. Dengan melakukana refactoring, kita dapat meningkatkan kualitas dan efisiensi kode sehingga dapat mempermudah kita dalam melakukan pemeliharaan dan melakukana update fitur kedepannya nanti.
+
