@@ -1,5 +1,7 @@
 # Modul 2
 
+[Link Deployment (Koyeb)](https://preferred-nadean-faridhsbi-4c486887.koyeb.app)
+
 ## Refleksi 1
 
 > List the code quality issue(s) that you fixed during the exercise and explain your strategy on fixing them.
