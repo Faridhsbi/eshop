@@ -13,7 +13,7 @@ import java.util.List;
 class CarController {
     @Autowired
     private CarService carService;
-    private final String redirectPath = "redirect:listcar";
+    private final static String redirectPath = "redirect:listcar";
     @GetMapping("/createCar")
     public String createCarPage(Model model) {
         Car car = new Car();
