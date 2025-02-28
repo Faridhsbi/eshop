@@ -68,9 +68,7 @@ class ProductControllerTest {
         String productId = "209387450293875";
         String viewName = productController.deleteProduct(productId);
 
-        verify(productService).delete(argThat(product ->
-                product.getProductId().equals(productId)
-        ));
+        verify(productService, times(1)).deleteById(eq(productId));
         assertEquals("redirect:list", viewName);
     }
 
@@ -122,7 +120,7 @@ class ProductControllerTest {
         Product updatedProduct = createTestProduct(productId, "Updated Product", 20);
 
         String viewName = productController.editProductPost(productId, updatedProduct);
-        verify(productService).edit(productId, updatedProduct);
+        verify(productService).update(productId, updatedProduct);
         assertEquals("redirect:/product/list", viewName);
     }
 }

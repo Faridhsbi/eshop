@@ -82,9 +82,9 @@ class ProductRepostioryTest {
         assertTrue(productIterator.hasNext());
 
         // Delete produk
-        productRepository.delete(product);
+        productRepository.delete(product.getProductId());
 
-        // Cek kembali bahwa produk telah dihapus
+        // Verifikasi bahwa produk telah dihapus
         productIterator = productRepository.findAll();
         assertFalse(productIterator.hasNext());
     }
@@ -102,7 +102,7 @@ class ProductRepostioryTest {
         editedProduct.setProductId("ab55e9f-1c39-460e-8860-71aaf6af63bd6");
         editedProduct.setProductName("Sampo Cap Bangoo");
         editedProduct.setProductQuantity(200);
-        productRepository.edit(editedProduct.getProductId(), editedProduct);
+        productRepository.update(editedProduct.getProductId(), editedProduct);
 
         // Ambil produk yang telah diedit dan cek hasil edit
         Product result = productRepository.findById("ab55e9f-1c39-460e-8860-71aaf6af63bd6");
@@ -112,7 +112,7 @@ class ProductRepostioryTest {
         assertEquals("ab55e9f-1c39-460e-8860-71aaf6af63bd6", result.getProductId());
 
         // Hapus produk setelah diedit
-        productRepository.delete(result);
+        productRepository.delete(result.getProductId());
 
         // Pastikan produk telah dihapus
         assertNull(productRepository.findById("ab55e9f-1c39-460e-8860-71aaf6af63bd6"));
@@ -125,7 +125,7 @@ class ProductRepostioryTest {
         nonExistentProduct.setProductName("None");
         nonExistentProduct.setProductQuantity(500);
 
-        productRepository.edit(nonExistentProduct.getProductId(), nonExistentProduct);
+        productRepository.update(nonExistentProduct.getProductId(), nonExistentProduct);
 
         assertNull(productRepository.findById("non-existent-id"));
     }
@@ -143,7 +143,7 @@ class ProductRepostioryTest {
         Product updatedProduct = new Product();
         updatedProduct.setProductName("Ayam Madura Carog");
         updatedProduct.setProductQuantity(20);
-        Product result = productRepository.edit(null, updatedProduct);
+        Product result = productRepository.update(null, updatedProduct);
 
         // tidak ada produk yang memiliki id null
         assertNull(result);
@@ -160,17 +160,17 @@ class ProductRepostioryTest {
 
         // edit dengan updatedProduct null harus menghasilkan NullPointerException
         assertThrows(NullPointerException.class, () -> {
-            productRepository.edit("zx54e0a-5c39-100w-9861-123dgf63bd6", null);
+            productRepository.update("zx54e0a-5c39-100w-9861-123dgf63bd6", null);
         });
     }
 
     @Test
     void testDeleteNonExistentProduct() {
-        Product nonExistentProduct = new Product();
-        nonExistentProduct.setProductId("non-existent-id");
-        productRepository.delete(nonExistentProduct);
+        String nonExistentId = "non-existent-id";
+        productRepository.delete(nonExistentId);
 
-        assertNull(productRepository.findById("non-existent-id"));
+        // Pastikan findById mengembalikan null untuk id tersebut
+        assertNull(productRepository.findById(nonExistentId));
     }
 
     @Test
@@ -224,8 +224,10 @@ class ProductRepostioryTest {
     void testDeleteProductWithNullProductId() {
         Product product = new Product();
         product.setProductName("Pecel Ayam Lale");
-        // set productId null
-        productRepository.delete(product);
+        // productId default null, kemudian panggil delete dengan null
+        productRepository.delete(product.getProductId());
+
+        // Setelah delete, pastikan repository tidak memiliki produk apa pun
         Iterator<Product> it = productRepository.findAll();
         assertFalse(it.hasNext());
     }
