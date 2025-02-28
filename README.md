@@ -23,6 +23,8 @@
   - Tanpa menggunakan interface `CarRepository`, mengganti penyimpanan data ke database mengharuskan rewrite seluruh logika di CarServiceImpl,yang dapat beresiko memunculkan bug.
 
 <hr>
+<details>
+<summary>Module 2</summary>
 
 # Modul 2
 
@@ -55,6 +57,10 @@ Pada CI/CD workflows yang sudah saya implementasi, menurut saya implementasi ter
 Dengan demikian, berdasarkan implementasi yang telah saya lakukan, saya telah memenuhi prinsip CI/CD yang memastikan setiap ada perubahan kode maka akan dilakukan proses pengujian, analisis, dan deployment secara otomatis.
 <hr>
 
+</details>
+
+<details>
+<summary>Module 1</summary>
 # Modul 1
 
 ## Refleksi 1
@@ -110,3 +116,4 @@ Masalah yang terjadi ketika dilakukan pengulangan kode dengan isi  <br>
 
 Dengan demikian, meskipun terdapat setup prosedur yang sama tidak langsung menurunkan kualitas kode. Dengan melakukana refactoring, kita dapat meningkatkan kualitas dan efisiensi kode sehingga dapat mempermudah kita dalam melakukan pemeliharaan dan melakukana update fitur kedepannya nanti.
 
+</details>
