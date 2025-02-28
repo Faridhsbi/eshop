@@ -1,3 +1,29 @@
+# Modul 3
+
+1) SOLID Principle yang telah saya terapkan, yaitu:
+  - Single Responsibility Principle (SRP)<br>
+    Saya telah menggunakan prinsip ini dengan memisahkan `CarController` dengan `ProductController`. `ProductController` berfokus hanya untuk menghandle `Product` dan `CarController` berfokus hanya unutk menghandle `Car`
+  - Open/Closed Principle (OCP)<br>
+    Pada `CarService`, saya telah menerapkan interface yang dapat digunakan untuk menambah method atau baru tanpa mengubah main code.
+  - Liskov Substitution Principle (LSP)<br>
+    Sebelumnya, `CarController` menginherit `ProductController`, tetapi diubah menjadi komposisi untuk menghindari ketergantungan yang tidak diperlukan.
+  - Dependency Inversion Principle (DIP)<br>
+    Dengan menggunakan interface `GenericRepository<T>`, komponen yang bergantung pada repository tidak bergantung pada implementasi konkret dari `CarRepository` atau `ProductRepository`, melainkan dari file `GenericRepository`.
+  - Interface Segregation Principle (ISP)<br>
+    Interface yang dibuat pada `GenericRepository<T>` dan `GenericService<T>` dirancang agar hanya mendefinisikan operasi CRUD dasar yang diperlukan sehingga klien tidak tergantung pada metode yang tidak digunakan.
+
+2) Dengan menerapkan SOLID principles pada projek, maka: <br>
+  - Projek kita jadi mudah untuk dimaintain. Misalnya, jika ada perubahan pada car controller, kita hanya fokus untuk memodifikasi kode di class CarController, jadi pada ProductController tidak akan terpengaruh oleh perubahan tersebut.<br>
+  - kita bisa mengganti implementasi CarService dengan implementasi baru tanpa mempengaruhi komponen lain yang bergantung pada interfacenya.<br>
+  - Memastikan bahwa interface yang digunakan oleh klien hanya berisi metode yang relevan saja. Hal ini dapat memudahkan klien dalam memahami dan mengimplementasikan.
+
+3) Jika kita tidak menerapkan SOLID principles pada projek kita, maka ada beberapa kekurangan yang bisa kita temukan:
+  - Kode menjadi sulit di maintain. Jika ada suatu perubahan terhadap suatu class/method yang memiliki banyak logika yang berbeda, maka perubahan tersebut dapat berdampak ke banyak aspek lainnya. Contoh, ketika CarController dan ProductController digabung menjadi satu class file saja, maka ketika ada perubahan pada
+  - Tanpa menerapkan OCP, kita harus melakukan perbuahan pada suatu method/class yang sudah stabil. Hal ini dapat menyebabkan potensi munculnya bug baru pada method yg sudah statbil. Contoh, menerapkan log  `System.out.println(car.getCarId());` di dalam method `editCarPost` , yang mana berarti jika ingin menambahkan logging, harus mengubah methodnya secara langsung.
+  - Tanpa menggunakan interface `CarRepository`, mengganti penyimpanan data ke database mengharuskan rewrite seluruh logika di CarServiceImpl,yang dapat beresiko memunculkan bug.
+
+<hr>
+
 # Modul 2
 
 [Link Deployment (Koyeb)](https://preferred-nadean-faridhsbi-4c486887.koyeb.app)
