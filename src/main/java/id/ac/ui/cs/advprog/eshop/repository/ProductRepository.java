@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class ProductRepository{
+public class ProductRepository implements GenericRepository<Product> {
     private List<Product> productData = new ArrayList<>();
 
     public Product create(Product product) {
@@ -51,10 +51,6 @@ public class ProductRepository{
                 return updatedProduct;
             }
         }
-        return null;
-    }
-
-    public Product findByProductId(String productId) {
         return null;
     }
 }
