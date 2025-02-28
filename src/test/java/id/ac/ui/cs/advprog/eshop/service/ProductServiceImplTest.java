@@ -5,6 +5,7 @@ import id.ac.ui.cs.advprog.eshop.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -90,22 +91,16 @@ class ProductServiceImplTest {
 
         verify(productRepository, times(1)).delete(sampleProduct);
     }
-
     @Test
     void testEdit() {
+        // Siapkan data produk yang diperbarui
         Product updatedProduct = new Product();
         updatedProduct.setProductId(sampleProduct.getProductId());
         updatedProduct.setProductName("Gurame Kering");
         updatedProduct.setProductQuantity(10);
 
-        when(productRepository.edit(sampleProduct.getProductId(), updatedProduct)).thenReturn(updatedProduct);
-
-        Product result = productService.edit(sampleProduct.getProductId(), updatedProduct);
-
-        assertNotNull(result);
-        assertEquals(updatedProduct.getProductId(), result.getProductId());
-        assertEquals(updatedProduct.getProductName(), result.getProductName());
-        assertEquals(updatedProduct.getProductQuantity(), result.getProductQuantity());
-        verify(productRepository, times(1)).edit(sampleProduct.getProductId(), updatedProduct);
+        when(productRepository.update(sampleProduct.getProductId(), updatedProduct)).thenReturn(updatedProduct);
+        productService.update(sampleProduct.getProductId(), updatedProduct);
+        verify(productRepository, times(1)).update(sampleProduct.getProductId(), updatedProduct);
     }
 }

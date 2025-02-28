@@ -102,7 +102,7 @@ class ProductRepostioryTest {
         editedProduct.setProductId("ab55e9f-1c39-460e-8860-71aaf6af63bd6");
         editedProduct.setProductName("Sampo Cap Bangoo");
         editedProduct.setProductQuantity(200);
-        productRepository.edit(editedProduct.getProductId(), editedProduct);
+        productRepository.update(editedProduct.getProductId(), editedProduct);
 
         // Ambil produk yang telah diedit dan cek hasil edit
         Product result = productRepository.findById("ab55e9f-1c39-460e-8860-71aaf6af63bd6");
@@ -125,7 +125,7 @@ class ProductRepostioryTest {
         nonExistentProduct.setProductName("None");
         nonExistentProduct.setProductQuantity(500);
 
-        productRepository.edit(nonExistentProduct.getProductId(), nonExistentProduct);
+        productRepository.update(nonExistentProduct.getProductId(), nonExistentProduct);
 
         assertNull(productRepository.findById("non-existent-id"));
     }
@@ -143,7 +143,7 @@ class ProductRepostioryTest {
         Product updatedProduct = new Product();
         updatedProduct.setProductName("Ayam Madura Carog");
         updatedProduct.setProductQuantity(20);
-        Product result = productRepository.edit(null, updatedProduct);
+        Product result = productRepository.update(null, updatedProduct);
 
         // tidak ada produk yang memiliki id null
         assertNull(result);
@@ -160,7 +160,7 @@ class ProductRepostioryTest {
 
         // edit dengan updatedProduct null harus menghasilkan NullPointerException
         assertThrows(NullPointerException.class, () -> {
-            productRepository.edit("zx54e0a-5c39-100w-9861-123dgf63bd6", null);
+            productRepository.update("zx54e0a-5c39-100w-9861-123dgf63bd6", null);
         });
     }
 

@@ -122,7 +122,7 @@ class ProductControllerTest {
         Product updatedProduct = createTestProduct(productId, "Updated Product", 20);
 
         String viewName = productController.editProductPost(productId, updatedProduct);
-        verify(productService).edit(productId, updatedProduct);
+        verify(productService).update(productId, updatedProduct);
         assertEquals("redirect:/product/list", viewName);
     }
 }

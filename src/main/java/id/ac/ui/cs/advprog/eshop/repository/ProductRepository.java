@@ -46,7 +46,7 @@ public class ProductRepository {
             );
         }
     }
-    public Product edit(String id, Product updatedProduct) {
+    public Product update(String id, Product updatedProduct) {
         for (int i = 0; i < productData.size(); i++) {
             Product existingProduct = productData.get(i);
             if (existingProduct.getProductId().equals(id)) {
@@ -57,7 +57,4 @@ public class ProductRepository {
         }
         return null;
     }
-
-
-
 }
