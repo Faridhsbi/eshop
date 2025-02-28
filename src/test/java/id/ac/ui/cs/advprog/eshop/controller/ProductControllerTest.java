@@ -68,9 +68,7 @@ class ProductControllerTest {
         String productId = "209387450293875";
         String viewName = productController.deleteProduct(productId);
 
-        verify(productService).delete(argThat(product ->
-                product.getProductId().equals(productId)
-        ));
+        verify(productService, times(1)).deleteById(eq(productId));
         assertEquals("redirect:list", viewName);
     }
 

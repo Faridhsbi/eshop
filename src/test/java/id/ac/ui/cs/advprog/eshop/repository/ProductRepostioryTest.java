@@ -82,9 +82,9 @@ class ProductRepostioryTest {
         assertTrue(productIterator.hasNext());
 
         // Delete produk
-        productRepository.delete(product);
+        productRepository.delete(product.getProductId());
 
-        // Cek kembali bahwa produk telah dihapus
+        // Verifikasi bahwa produk telah dihapus
         productIterator = productRepository.findAll();
         assertFalse(productIterator.hasNext());
     }
@@ -112,7 +112,7 @@ class ProductRepostioryTest {
         assertEquals("ab55e9f-1c39-460e-8860-71aaf6af63bd6", result.getProductId());
 
         // Hapus produk setelah diedit
-        productRepository.delete(result);
+        productRepository.delete(result.getProductId());
 
         // Pastikan produk telah dihapus
         assertNull(productRepository.findById("ab55e9f-1c39-460e-8860-71aaf6af63bd6"));
@@ -166,11 +166,11 @@ class ProductRepostioryTest {
 
     @Test
     void testDeleteNonExistentProduct() {
-        Product nonExistentProduct = new Product();
-        nonExistentProduct.setProductId("non-existent-id");
-        productRepository.delete(nonExistentProduct);
+        String nonExistentId = "non-existent-id";
+        productRepository.delete(nonExistentId);
 
-        assertNull(productRepository.findById("non-existent-id"));
+        // Pastikan findById mengembalikan null untuk id tersebut
+        assertNull(productRepository.findById(nonExistentId));
     }
 
     @Test
@@ -224,8 +224,10 @@ class ProductRepostioryTest {
     void testDeleteProductWithNullProductId() {
         Product product = new Product();
         product.setProductName("Pecel Ayam Lale");
-        // set productId null
-        productRepository.delete(product);
+        // productId default null, kemudian panggil delete dengan null
+        productRepository.delete(product.getProductId());
+
+        // Setelah delete, pastikan repository tidak memiliki produk apa pun
         Iterator<Product> it = productRepository.findAll();
         assertFalse(it.hasNext());
     }

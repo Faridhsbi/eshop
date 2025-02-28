@@ -13,7 +13,7 @@ import java.util.List;
 class CarController {
     @Autowired
     private CarService carService;
-    private final static String redirectPath = "redirect:listcar";
+    private final static String redirectPath = "redirect:listCar";
     @GetMapping("/createCar")
     public String createCarPage(Model model) {
         Car car = new Car();
@@ -49,7 +49,7 @@ class CarController {
 
     @PostMapping("/deleteCar")
     public String deleteCar(@RequestParam("carId") String carId) {
-        carService.deleteCarById(carId);
+        carService.deleteById(carId);
         return redirectPath;
     }
 }

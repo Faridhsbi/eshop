@@ -85,11 +85,11 @@ class ProductServiceImplTest {
 
     @Test
     void testDelete() {
-        doNothing().when(productRepository).delete(sampleProduct);
+        doNothing().when(productRepository).delete(sampleProduct.getProductId());
 
-        productService.delete(sampleProduct);
+        productService.deleteById(sampleProduct.getProductId());
 
-        verify(productRepository, times(1)).delete(sampleProduct);
+        verify(productRepository, times(1)).delete(eq(sampleProduct.getProductId()));
     }
     @Test
     void testEdit() {
