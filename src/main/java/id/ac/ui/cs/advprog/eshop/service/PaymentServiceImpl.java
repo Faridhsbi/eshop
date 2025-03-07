@@ -12,32 +12,51 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class PaymentServiceImpl implements PaymentService {
+    public class PaymentServiceImpl implements PaymentService {
 
-    @Autowired
-    private PaymentRepository paymentRepository;
+        @Autowired
+        private PaymentRepository paymentRepository;
 
-    @Autowired
-    private OrderRepository orderRepository;
+        @Autowired
+        private OrderRepository orderRepository;
 
-    @Override
-    public Payment addPayment(Order order, String method, Map<String, String> paymentData) {
-        return null;
+        @Override
+        public Payment addPayment(Order order, String method, Map<String, String> paymentData) {
+            String paymentId = UUID.randomUUID().toString();
+            Payment payment = new Payment(paymentId, order, method, paymentData);
+            return paymentRepository.save(payment);
+        }
+
+        @Override
+        public Payment setStatus(Payment payment, String status) {
+            if ("SUCCESS".equalsIgnoreCase(status)) {
+                payment.setStatus("SUCCESS");
+                Order relatedOrder = payment.getOrder();
+                if (relatedOrder != null) {
+                    relatedOrder.setStatus("SUCCESS");
+                    orderRepository.save(relatedOrder);
+                }
+            } else if ("REJECTED".equalsIgnoreCase(status)) {
+                payment.setStatus("REJECTED");
+                Order relatedOrder = payment.getOrder();
+                if (relatedOrder != null) {
+                    relatedOrder.setStatus("FAILED");
+                    orderRepository.save(relatedOrder);
+                }
+            } else {
+                payment.setStatus(status);
+            }
+            return paymentRepository.save(payment);
+        }
+
+        @Override
+        public Payment getPayment(String paymentId) {
+            return paymentRepository.findById(paymentId);
+        }
+
+        @Override
+        public List<Payment> getAllPayments() {
+            return paymentRepository.findAll();
+        }
+
     }
-
-    @Override
-    public Payment setStatus(Payment payment, String status) {
-        return null;
-    }
-
-    @Override
-    public Payment getPayment(String paymentId) {
-        return null;
-    }
-
-    @Override
-    public List<Payment> getAllPayments() {
-        return null;
-    }
-
-}
