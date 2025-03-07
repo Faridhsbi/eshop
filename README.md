@@ -1,3 +1,29 @@
+# Modul 4
+
+> Reflect based on Percival (2017) proposed self-reflective questions (in “Principles and Best Practice of Testing” submodule, chapter “Evaluating Your Testing Objectives”), whether this TDD flow is useful enough for you or not. If not, explain things that you need to do next time you make more tests.
+
+Penerapan TDD sangat membantu saya dalam mendifinisakan method yang akan diimplementasikan. Proses dari TDD sendiri, juga dapat memberikan kode kita lebih terstruktur karena proses pengembangan dimulai dari tahapan test terlebih dahulu. Jika saat mengimplementasikan method tertentu, dan kemudian kita mendapatkan kesalahan, maka kita jadi lebih mengetahui letak kesalahan secepat mungkin sebelum melanjutkan pembuatan kode yang lebih kompleks. Hal tersebut dapat meningkatkan efektifitas dalam merancang suatu aplikasi karena dapat memudahkan dalam pemelharaan dan pengembangan fitur kedepannya.
+
+> You have created unit tests in Tutorial. Now reflect whether your tests have successfully followed F.I.R.S.T. principle or not. If not, explain things that you need to do the next time you create more tests.
+
+Prinsip F.I.R.S.T yang telah saya implementasikan adalah:
+- Fast<br>
+Saya telah menerapkannya karena pengujian, saya menggunakan memory (mocking) tanpa menggunakan dependencies eksternal.
+- Independent<br>
+Setiap test yang saya buat tidak bergantung pada test lainnya. Serta penggunaan `@BeforeEach`, memastikan pengujian saling independen.
+- Repeatable<br>
+Tes yang telah saya buat sudah cukup repeatable karena tidak bergantung pada data eksternal dan urutan eksekusi. Saya juga memastikan pengujian berjalan konsisten di lingkungan lokal maupun eksternal.
+- Self-validating<br>
+Setiap test memiliki assersi yang jelas (seperti assertTrue, assertThrows, assertNull) untuk memastikan hasil uji yang berhasil/gagal tanpa perlu pengecekan manual.
+- Timely<br>
+Saya menerapkannya dengan membuat tes sebelum implementasi kelas yang ingin dibuat sehingga saya dapat memastikan fitur telah sesuai dengan spesifikasi. 
+
+Secara keseluruhan, saya sudah bisa menerapkan prinsip ini dengan cukup baik. Namun, saya merasa masih ada beberapa hal yang bisa ditingkatkan lagi, seperti membuat unit testing yang mengcover keseluruhan code termasuk edge-case. Kemudian melakukan pemisahan setup data untuk memastikan independensi dan kemudahan dalam pemeliharaan . Dengan menerapkan perbaikan tersebut, saya yakin unit testing yang saya buat dapat lebih efektif lagi sehingga telah sesuai dengan prinsip dari F.I.R.S.T yang bertujuan untuk meningkatkan kualitas kode secara keseluruhan.
+
+
+<details>
+<summary>Module 3</summary>
+
 # Modul 3
 
 1) SOLID Principle yang telah saya terapkan, yaitu:
@@ -23,6 +49,9 @@
    - Tanpa menggunakan interface `CarRepository`, mengganti penyimpanan data ke database mengharuskan rewrite seluruh logika di CarServiceImpl,yang dapat beresiko memunculkan bug.
 
 <hr>
+
+</details>
+
 <details>
 <summary>Module 2</summary>
 
