@@ -35,8 +35,6 @@ public class Payment {
             validateVoucherPayment();
         } else if (PaymentMethod.BANK_TRANSFER.getValue().equalsIgnoreCase(method)) {
             validateBankTransferPayment();
-        } else if (PaymentMethod.CASH_ON_DELIVERY.getValue().equalsIgnoreCase(method)) {
-            validateCashOnDeliveryPayment();
         } else {
             throw new IllegalArgumentException("Unsupported payment method: " + method);
         }
@@ -66,17 +64,6 @@ public class Payment {
         String referenceCode = paymentData.get("referenceCode");
         if (bankName == null || bankName.trim().isEmpty() ||
                 referenceCode == null || referenceCode.trim().isEmpty()) {
-            setStatus(PaymentStatus.REJECTED.getValue());
-        } else {
-            setStatus(PaymentStatus.SUCCESS.getValue());
-        }
-    }
-
-    private void validateCashOnDeliveryPayment() {
-        String address = paymentData.get("address");
-        String deliveryFee = paymentData.get("deliveryFee");
-        if (address == null || address.trim().isEmpty() ||
-                deliveryFee == null || deliveryFee.trim().isEmpty()) {
             setStatus(PaymentStatus.REJECTED.getValue());
         } else {
             setStatus(PaymentStatus.SUCCESS.getValue());
