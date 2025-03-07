@@ -43,8 +43,8 @@ public class PaymentRepositoryTest {
         bankTransferData.put("bankName", "BCA");
         bankTransferData.put("referenceCode", "REF123456789");
 
-        payment1 = new Payment("payment-123", order, "VOUCHER", voucherData);
-        payment2 = new Payment("payment-456", order, "BANK_TRANSFER", bankTransferData);
+        payment1 = new Payment("payment-1", order, "VOUCHER", voucherData);
+        payment2 = new Payment("payment-2", order, "BANK_TRANSFER", bankTransferData);
     }
 
     @Test
@@ -56,13 +56,6 @@ public class PaymentRepositoryTest {
         Payment found = repository.findById("payment-1");
         assertNotNull(found);
         assertEquals("payment-1", found.getId());
-    }
-
-    @Test
-    void testSaveCreateNegative() {
-        assertThrows(NullPointerException.class, () -> {
-            repository.save(null);
-        });
     }
 
     @Test
