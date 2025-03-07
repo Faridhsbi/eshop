@@ -4,6 +4,7 @@ import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
 import id.ac.ui.cs.advprog.eshop.repository.OrderRepository;
 import id.ac.ui.cs.advprog.eshop.repository.PaymentRepository;
+import id.ac.ui.cs.advprog.eshop.enums.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,18 +30,18 @@ import java.util.UUID;
 
         @Override
         public Payment setStatus(Payment payment, String status) {
-            if ("SUCCESS".equalsIgnoreCase(status)) {
-                payment.setStatus("SUCCESS");
+            if (PaymentStatus.SUCCESS.getValue().equalsIgnoreCase(status)) {
+                payment.setStatus(PaymentStatus.SUCCESS.getValue());
                 Order relatedOrder = payment.getOrder();
                 if (relatedOrder != null) {
-                    relatedOrder.setStatus("SUCCESS");
+                    relatedOrder.setStatus(PaymentStatus.SUCCESS.getValue());
                     orderRepository.save(relatedOrder);
                 }
-            } else if ("REJECTED".equalsIgnoreCase(status)) {
-                payment.setStatus("REJECTED");
+            } else if (PaymentStatus.REJECTED.getValue().equalsIgnoreCase(status)) {
+                payment.setStatus(PaymentStatus.REJECTED.getValue());
                 Order relatedOrder = payment.getOrder();
                 if (relatedOrder != null) {
-                    relatedOrder.setStatus("FAILED");
+                    relatedOrder.setStatus(OrderStatus.FAILED.getValue());
                     orderRepository.save(relatedOrder);
                 }
             } else {
