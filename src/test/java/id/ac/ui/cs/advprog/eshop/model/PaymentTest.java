@@ -1,5 +1,7 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentMethod;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 public class PaymentTest {
     private Order order;
@@ -23,102 +26,103 @@ public class PaymentTest {
         product1.setProductQuantity(2);
         products.add(product1);
 
-        this.order = new Order("13652556-012a-4c07-b546-54eb1396d79b", products, 1708560000L, "Safira Sudrajat");
-        this.paymentData = new HashMap<>();
+        order = new Order("13652556-012a-4c07-b546-54eb1396d79b", products, 1708560000L, "Safira Sudrajat");
+        paymentData = new HashMap<>();
     }
 
     @Test
     void testCreatePaymentWithRequiredFields() {
-        Payment payment = new Payment("new-payment", this.order, "VOUCHER", this.paymentData);
+        Payment payment = new Payment("new-payment", order, "VOUCHER", paymentData);
         assertEquals("new-payment", payment.getId());
-        assertEquals(this.order, payment.getOrder());
-        assertEquals("VOUCHER", payment.getMethod());
-        assertEquals(this.paymentData, payment.getPaymentData());
-        assertEquals("WAITING", payment.getStatus());
+        assertEquals(order, payment.getOrder());
+        assertEquals(PaymentMethod.VOUCHER, payment.getMethod());
+        assertEquals(paymentData, payment.getPaymentData());
+        assertEquals(PaymentStatus.WAITING, payment.getStatus());
     }
 
     @Test
     void testCreatePaymentWithCustomStatus() {
-        Payment payment = new Payment("new-payment", this.order, "VOUCHER", this.paymentData, "SUCCESS");
-        assertEquals("SUCCESS", payment.getStatus());
+        Payment payment = new Payment("new-payment", order, "VOUCHER", paymentData, "SUCCESS");
+        assertEquals(PaymentStatus.SUCCESS, payment.getStatus());
     }
+
     @Test
     void updatePaymentStatusShouldChangeValue() {
-        Payment payment = new Payment("new-payment", this.order, "VOUCHER", this.paymentData);
-        payment.setStatus("SUCCESS");
-        assertEquals("SUCCESS", payment.getStatus());
+        Payment payment = new Payment("new-payment", order, "VOUCHER", paymentData);
+        payment.setStatus(PaymentStatus.SUCCESS);
+        assertEquals(PaymentStatus.SUCCESS, payment.getStatus());
     }
 
     @Test
     void validateVoucherPayment_withValidCode_returnsSuccess() {
-        this.paymentData.put("voucherCode", "ESHOP5678XYZ1234");
-        Payment payment = new Payment("new-payment", this.order, "VOUCHER", this.paymentData);
+        paymentData.put("voucherCode", "ESHOP5678XYZ1234");
+        Payment payment = new Payment("new-payment", order, "VOUCHER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals("SUCCESS", payment.getStatus());
+        assertEquals(PaymentStatus.SUCCESS, payment.getStatus());
     }
 
     @Test
     void validateVoucherPayment_withShortCode_returnsRejected() {
-        this.paymentData.put("voucherCode", "ESHOP9876");
-        Payment payment = new Payment("new-payment", this.order, "VOUCHER", this.paymentData);
+        paymentData.put("voucherCode", "ESHOP9876");
+        Payment payment = new Payment("new-payment", order, "VOUCHER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals("REJECTED", payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
     }
 
     @Test
     void validateVoucherPayment_withIncorrectPrefix_returnsRejected() {
-        this.paymentData.put("voucherCode", "SHOP9876LMN54321");
-        Payment payment = new Payment("new-payment", this.order, "VOUCHER", this.paymentData);
+        paymentData.put("voucherCode", "SHOP9876LMN54321");
+        Payment payment = new Payment("new-payment", order, "VOUCHER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals("REJECTED", payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
     }
 
     @Test
     void validateVoucherPayment_withInsufficientDigits_returnsRejected() {
-        this.paymentData.put("voucherCode", "ESHOPABCDWXYZEFG");
-        Payment payment = new Payment("new-payment", this.order, "VOUCHER", this.paymentData);
+        paymentData.put("voucherCode", "ESHOPABCDWXYZEFG");
+        Payment payment = new Payment("new-payment", order, "VOUCHER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals("REJECTED", payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
     }
 
     @Test
     void validateBankTransferPayment_withCompleteData_returnsSuccess() {
-        this.paymentData.put("bankName", "Mandiri");
-        this.paymentData.put("referenceCode", "REF987654321");
-        Payment payment = new Payment("new-payment", this.order, "BANK_TRANSFER", this.paymentData);
+        paymentData.put("bankName", "Mandiri");
+        paymentData.put("referenceCode", "REF987654321");
+        Payment payment = new Payment("new-payment", order, "BANK_TRANSFER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals("SUCCESS", payment.getStatus());
+        assertEquals(PaymentStatus.SUCCESS, payment.getStatus());
     }
 
     @Test
     void validateBankTransferPayment_missingBankName_returnsRejected() {
-        this.paymentData.put("referenceCode", "REF987654321");
-        Payment payment = new Payment("new-payment", this.order, "BANK_TRANSFER", this.paymentData);
+        paymentData.put("referenceCode", "REF987654321");
+        Payment payment = new Payment("new-payment", order, "BANK_TRANSFER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals("REJECTED", payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
     }
 
     @Test
     void validateBankTransferPayment_withEmptyReference_returnsRejected() {
-        this.paymentData.put("bankName", "Mandiri");
-        this.paymentData.put("referenceCode", "");
-        Payment payment = new Payment("new-payment", this.order, "BANK_TRANSFER", this.paymentData);
+        paymentData.put("bankName", "Mandiri");
+        paymentData.put("referenceCode", "");
+        Payment payment = new Payment("new-payment", order, "BANK_TRANSFER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals("REJECTED", payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
     }
 
     @Test
     void validateBankTransferPayment_withNullValues_returnsRejected() {
-        this.paymentData.put("bankName", null);
-        this.paymentData.put("referenceCode", null);
-        Payment payment = new Payment("new-payment", this.order, "BANK_TRANSFER", this.paymentData);
+        paymentData.put("bankName", null);
+        paymentData.put("referenceCode", null);
+        Payment payment = new Payment("new-payment", order, "BANK_TRANSFER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals("REJECTED", payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
     }
 
     @Test
     void validatePayment_withUnsupportedMethod_throwsException() {
-        Payment payment = new Payment("new-payment", this.order, "UNKNOWN_METHOD", this.paymentData);
+        Payment payment = new Payment("new-payment", order, "UNKNOWN_METHOD", paymentData);
         Exception ex = assertThrows(IllegalArgumentException.class, () -> {
             payment.validateAndSetStatus();
         });
@@ -127,17 +131,18 @@ public class PaymentTest {
 
     @Test
     void validateVoucherPayment_withNullVoucher_returnsRejected() {
-        Payment payment = new Payment("new-payment", this.order, "VOUCHER", this.paymentData);
+        // Tidak memasukkan voucherCode
+        Payment payment = new Payment("new-payment", order, "VOUCHER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals("REJECTED", payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
     }
 
     @Test
     void validateBankTransferPayment_withWhitespaceBankName_returnsRejected() {
-        this.paymentData.put("bankName", "   ");
-        this.paymentData.put("referenceCode", "REF987654321");
-        Payment payment = new Payment("new-payment", this.order, "BANK_TRANSFER", this.paymentData);
+        paymentData.put("bankName", "   ");
+        paymentData.put("referenceCode", "REF987654321");
+        Payment payment = new Payment("new-payment", order, "BANK_TRANSFER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals("REJECTED", payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
     }
 }
