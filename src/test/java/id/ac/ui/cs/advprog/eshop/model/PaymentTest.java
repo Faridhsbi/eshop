@@ -35,22 +35,22 @@ public class PaymentTest {
         Payment payment = new Payment("new-payment", order, "VOUCHER", paymentData);
         assertEquals("new-payment", payment.getId());
         assertEquals(order, payment.getOrder());
-        assertEquals(PaymentMethod.VOUCHER, payment.getMethod());
+        assertEquals(PaymentMethod.VOUCHER.getValue(), payment.getMethod());
         assertEquals(paymentData, payment.getPaymentData());
-        assertEquals(PaymentStatus.WAITING, payment.getStatus());
+        assertEquals(PaymentStatus.WAITING.getValue(), payment.getStatus());
     }
 
     @Test
     void testCreatePaymentWithCustomStatus() {
         Payment payment = new Payment("new-payment", order, "VOUCHER", paymentData, "SUCCESS");
-        assertEquals(PaymentStatus.SUCCESS, payment.getStatus());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
     }
 
     @Test
     void updatePaymentStatusShouldChangeValue() {
         Payment payment = new Payment("new-payment", order, "VOUCHER", paymentData);
-        payment.setStatus(PaymentStatus.SUCCESS);
-        assertEquals(PaymentStatus.SUCCESS, payment.getStatus());
+        payment.setStatus(PaymentStatus.SUCCESS.getValue());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
     }
 
     @Test
@@ -58,7 +58,7 @@ public class PaymentTest {
         paymentData.put("voucherCode", "ESHOP5678XYZ1234");
         Payment payment = new Payment("new-payment", order, "VOUCHER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals(PaymentStatus.SUCCESS, payment.getStatus());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
     }
 
     @Test
@@ -66,7 +66,7 @@ public class PaymentTest {
         paymentData.put("voucherCode", "ESHOP9876");
         Payment payment = new Payment("new-payment", order, "VOUCHER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
     }
 
     @Test
@@ -74,7 +74,7 @@ public class PaymentTest {
         paymentData.put("voucherCode", "SHOP9876LMN54321");
         Payment payment = new Payment("new-payment", order, "VOUCHER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
     }
 
     @Test
@@ -82,7 +82,7 @@ public class PaymentTest {
         paymentData.put("voucherCode", "ESHOPABCDWXYZEFG");
         Payment payment = new Payment("new-payment", order, "VOUCHER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
     }
 
     @Test
@@ -91,7 +91,7 @@ public class PaymentTest {
         paymentData.put("referenceCode", "REF987654321");
         Payment payment = new Payment("new-payment", order, "BANK_TRANSFER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals(PaymentStatus.SUCCESS, payment.getStatus());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class PaymentTest {
         paymentData.put("referenceCode", "REF987654321");
         Payment payment = new Payment("new-payment", order, "BANK_TRANSFER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
     }
 
     @Test
@@ -108,7 +108,7 @@ public class PaymentTest {
         paymentData.put("referenceCode", "");
         Payment payment = new Payment("new-payment", order, "BANK_TRANSFER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
     }
 
     @Test
@@ -117,7 +117,7 @@ public class PaymentTest {
         paymentData.put("referenceCode", null);
         Payment payment = new Payment("new-payment", order, "BANK_TRANSFER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
     }
 
     @Test
@@ -134,7 +134,7 @@ public class PaymentTest {
         // Tidak memasukkan voucherCode
         Payment payment = new Payment("new-payment", order, "VOUCHER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
     }
 
     @Test
@@ -143,6 +143,6 @@ public class PaymentTest {
         paymentData.put("referenceCode", "REF987654321");
         Payment payment = new Payment("new-payment", order, "BANK_TRANSFER", paymentData);
         payment.validateAndSetStatus();
-        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
     }
 }

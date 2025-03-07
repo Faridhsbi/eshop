@@ -12,44 +12,40 @@ import java.util.Map;
 public class Payment {
     private String id;
     private Order order;
-    private PaymentMethod method;
+    private String method;
     @Setter
-    private PaymentStatus status;
+    private String status;
     private Map<String, String> paymentData;
 
-    public Payment(String id, Order order, PaymentMethod method, Map<String, String> paymentData) {
+    public Payment(String id, Order order, String method, Map<String, String> paymentData) {
         this.id = id;
         this.order = order;
         this.method = method;
         this.paymentData = paymentData;
-        this.status = PaymentStatus.REJECTED;
+        this.status = PaymentStatus.WAITING.getValue();
     }
 
-    public Payment(String id, Order order, PaymentMethod method, Map<String, String> paymentData, PaymentStatus status) {
+    public Payment(String id, Order order, String method, Map<String, String> paymentData, String status) {
         this(id, order, method, paymentData);
         this.status = status;
     }
 
     public void validateAndSetStatus() {
-        switch (method) {
-            case VOUCHER:
-                validateVoucherPayment();
-                break;
-            case BANK_TRANSFER:
-                validateBankTransferPayment();
-                break;
-            case CASH_ON_DELIVERY:
-                validateCashOnDeliveryPayment();
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported payment method: " + method);
+        if (PaymentMethod.VOUCHER.getValue().equalsIgnoreCase(method)) {
+            validateVoucherPayment();
+        } else if (PaymentMethod.BANK_TRANSFER.getValue().equalsIgnoreCase(method)) {
+            validateBankTransferPayment();
+        } else if (PaymentMethod.CASH_ON_DELIVERY.getValue().equalsIgnoreCase(method)) {
+            validateCashOnDeliveryPayment();
+        } else {
+            throw new IllegalArgumentException("Unsupported payment method: " + method);
         }
     }
 
     private void validateVoucherPayment() {
         String voucherCode = paymentData.get("voucherCode");
         if (voucherCode == null || voucherCode.length() != 16 || !voucherCode.startsWith("ESHOP")) {
-            setStatus(PaymentStatus.REJECTED);
+            setStatus(PaymentStatus.REJECTED.getValue());
             return;
         }
         int digitCount = 0;
@@ -59,9 +55,9 @@ public class Payment {
             }
         }
         if (digitCount == 8) {
-            setStatus(PaymentStatus.SUCCESS);
+            setStatus(PaymentStatus.SUCCESS.getValue());
         } else {
-            setStatus(PaymentStatus.REJECTED);
+            setStatus(PaymentStatus.REJECTED.getValue());
         }
     }
 
@@ -70,9 +66,9 @@ public class Payment {
         String referenceCode = paymentData.get("referenceCode");
         if (bankName == null || bankName.trim().isEmpty() ||
                 referenceCode == null || referenceCode.trim().isEmpty()) {
-            setStatus(PaymentStatus.REJECTED);
+            setStatus(PaymentStatus.REJECTED.getValue());
         } else {
-            setStatus(PaymentStatus.SUCCESS);
+            setStatus(PaymentStatus.SUCCESS.getValue());
         }
     }
 
@@ -81,9 +77,9 @@ public class Payment {
         String deliveryFee = paymentData.get("deliveryFee");
         if (address == null || address.trim().isEmpty() ||
                 deliveryFee == null || deliveryFee.trim().isEmpty()) {
-            setStatus(PaymentStatus.REJECTED);
+            setStatus(PaymentStatus.REJECTED.getValue());
         } else {
-            setStatus(PaymentStatus.SUCCESS);
+            setStatus(PaymentStatus.SUCCESS.getValue());
         }
     }
 }
