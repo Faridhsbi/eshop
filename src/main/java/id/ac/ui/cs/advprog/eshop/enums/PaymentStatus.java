@@ -1,5 +1,8 @@
 package id.ac.ui.cs.advprog.eshop.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum PaymentStatus {
     SUCCESS("SUCCESS"),
     REJECTED("REJECTED");
@@ -8,10 +11,6 @@ public enum PaymentStatus {
 
     PaymentStatus(String value) {
         this.value = value;
-    }
-
-    public String getValue() {
-        return value;
     }
 
     public static boolean contains(String param) {

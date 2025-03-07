@@ -1,5 +1,7 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentMethod;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,41 +12,44 @@ import java.util.Map;
 public class Payment {
     private String id;
     private Order order;
-    private String method;
+    private PaymentMethod method;
     @Setter
-    private String status;
+    private PaymentStatus status;
     private Map<String, String> paymentData;
 
-
-    public Payment(String id, Order order, String method, Map<String, String> paymentData) {
+    public Payment(String id, Order order, PaymentMethod method, Map<String, String> paymentData) {
         this.id = id;
         this.order = order;
         this.method = method;
         this.paymentData = paymentData;
-        this.status = "WAITING";
+        this.status = PaymentStatus.REJECTED;
     }
 
-    public Payment(String id, Order order, String method, Map<String, String> paymentData, String status) {
+    public Payment(String id, Order order, PaymentMethod method, Map<String, String> paymentData, PaymentStatus status) {
         this(id, order, method, paymentData);
         this.status = status;
     }
 
     public void validateAndSetStatus() {
-        if ("VOUCHER".equalsIgnoreCase(method)) {
-            validateVoucherPayment();
-        } else if ("BANK_TRANSFER".equalsIgnoreCase(method)) {
-            validateBankTransferPayment();
-        } else if ("CASH_ON_DELIVERY".equalsIgnoreCase(method)) {
-            validateCashOnDeliveryPayment();
-        } else {
-            throw new IllegalArgumentException("Unsupported payment method: " + method);
+        switch (method) {
+            case VOUCHER:
+                validateVoucherPayment();
+                break;
+            case BANK_TRANSFER:
+                validateBankTransferPayment();
+                break;
+            case CASH_ON_DELIVERY:
+                validateCashOnDeliveryPayment();
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported payment method: " + method);
         }
     }
 
     private void validateVoucherPayment() {
         String voucherCode = paymentData.get("voucherCode");
         if (voucherCode == null || voucherCode.length() != 16 || !voucherCode.startsWith("ESHOP")) {
-            setStatus("REJECTED");
+            setStatus(PaymentStatus.REJECTED);
             return;
         }
         int digitCount = 0;
@@ -54,9 +59,9 @@ public class Payment {
             }
         }
         if (digitCount == 8) {
-            setStatus("SUCCESS");
+            setStatus(PaymentStatus.SUCCESS);
         } else {
-            setStatus("REJECTED");
+            setStatus(PaymentStatus.REJECTED);
         }
     }
 
@@ -65,9 +70,9 @@ public class Payment {
         String referenceCode = paymentData.get("referenceCode");
         if (bankName == null || bankName.trim().isEmpty() ||
                 referenceCode == null || referenceCode.trim().isEmpty()) {
-            setStatus("REJECTED");
+            setStatus(PaymentStatus.REJECTED);
         } else {
-            setStatus("SUCCESS");
+            setStatus(PaymentStatus.SUCCESS);
         }
     }
 
@@ -76,9 +81,9 @@ public class Payment {
         String deliveryFee = paymentData.get("deliveryFee");
         if (address == null || address.trim().isEmpty() ||
                 deliveryFee == null || deliveryFee.trim().isEmpty()) {
-            setStatus("REJECTED");
+            setStatus(PaymentStatus.REJECTED);
         } else {
-            setStatus("SUCCESS");
+            setStatus(PaymentStatus.SUCCESS);
         }
     }
 }
