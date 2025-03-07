@@ -116,10 +116,10 @@ public class PaymentServiceImplTest {
         when(paymentRepository.save(payment)).thenReturn(payment);
         when(orderRepository.save(order)).thenReturn(order);
 
-        Payment result = paymentService.setStatus(payment, "SUCCESS");
+        Payment result = paymentService.setStatus(payment, PaymentStatus.SUCCESS.getValue());
 
-        assertEquals("SUCCESS", result.getStatus());
-        assertEquals("SUCCESS", order.getStatus());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), result.getStatus());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), order.getStatus());
         verify(paymentRepository, times(1)).save(payment);
         verify(orderRepository, times(1)).save(order);
     }
@@ -132,10 +132,10 @@ public class PaymentServiceImplTest {
         when(paymentRepository.save(payment)).thenReturn(payment);
         when(orderRepository.save(order)).thenReturn(order);
 
-        Payment result = paymentService.setStatus(payment, "REJECTED");
+        Payment result = paymentService.setStatus(payment, PaymentStatus.REJECTED.getValue());
 
-        assertEquals("REJECTED", result.getStatus());
-        assertEquals("FAILED", order.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
+        assertEquals(OrderStatus.FAILED.getValue(), order.getStatus());
         verify(paymentRepository, times(1)).save(payment);
         verify(orderRepository, times(1)).save(order);
     }
@@ -161,9 +161,9 @@ public class PaymentServiceImplTest {
 
         when(paymentRepository.save(payment)).thenReturn(payment);
 
-        Payment result = paymentService.setStatus(payment, "SUCCESS");
+        Payment result = paymentService.setStatus(payment, PaymentStatus.SUCCESS.getValue());
 
-        assertEquals("SUCCESS", result.getStatus());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), result.getStatus());
         verify(paymentRepository, times(1)).save(payment);
         verify(orderRepository, never()).save(any(Order.class));
     }
